@@ -21,4 +21,18 @@
 //
 // Lines longer than BufSize bytes are skipped by the underlying bufio.Scanner.
 // Increase Options.BufSize when processing logs with very large payloads.
+//
+// Error handling:
+//
+// If the underlying reader returns a non-EOF error, the stream is closed and
+// the error is accessible via the Err method after the Lines channel is
+// drained:
+//
+//	lines := rd.Lines(ctx, r)
+//	for line := range lines {
+//		// process line
+//	}
+//	if err := rd.Err(); err != nil {
+//		log.Printf("reader error: %v", err)
+//	}
 package reader
